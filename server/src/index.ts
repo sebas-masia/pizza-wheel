@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { Database } from 'sqlite3';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,6 +13,15 @@ app.use(express.json());
 
 const db = new Database('spins.db');
 
+interface Spin {
+  id: string;
+  name: string;
+  email: string;
+  sucursal: string;
+  award: string;
+  createdAt?: string;
+}
+
 // Create table if it doesn't exist
 db.run(`
   CREATE TABLE IF NOT EXISTS spins (
@@ -26,8 +35,8 @@ db.run(`
 `);
 
 // Add new spin
-app.post('/api/spins', (req, res) => {
-  const { name, email, sucursal, award } = req.body;
+app.post('/api/spins', (req: Request, res: Response) => {
+  const { name, email, sucursal, award } = req.body as Spin;
   const id = uuidv4();
 
   db.run(
@@ -44,8 +53,8 @@ app.post('/api/spins', (req, res) => {
 });
 
 // Get all spins
-app.get('/api/spins', (_, res) => {
-  db.all('SELECT * FROM spins ORDER BY createdAt DESC', (err, rows) => {
+app.get('/api/spins', (_: Request, res: Response) => {
+  db.all('SELECT * FROM spins ORDER BY createdAt DESC', (err, rows: Spin[]) => {
     if (err) {
       res.status(500).json({ error: err.message });
       return;

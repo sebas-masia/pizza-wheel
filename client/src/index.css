@@ -1,0 +1,413 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff4444 100%);
+  font-family: 'Poppins', Arial, sans-serif;
+  min-height: 100vh;
+}
+
+.spin-wheel-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  /* min-height: calc(100vh - 100px); */
+}
+
+.spin-form {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  backdrop-filter: blur(10px);
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #eee;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: white;
+  box-sizing: border-box; /* Ensure padding is included in width */
+  -webkit-appearance: none; /* Remove default styling in Safari */
+  -moz-appearance: none; /* Remove default styling in Firefox */
+  appearance: none; /* Remove default styling */
+}
+
+/* Add a custom arrow for select element */
+.form-group select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 16px;
+  padding-right: 45px; /* Make room for custom arrow */
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #ff4444;
+  box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.2);
+  outline: none;
+}
+
+.wheel-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 600px;
+  width: 600px; /* Add fixed width */
+  height: 600px; /* Add fixed height */
+  backdrop-filter: blur(10px);
+}
+
+button {
+  background: linear-gradient(45deg, #ff4444 0%, #ff6b6b 100%);
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  width: 100%;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 68, 68, 0.4);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.result-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 500px;
+  margin: 40px auto;
+  backdrop-filter: blur(10px);
+}
+
+.result-container h2 {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 32px;
+}
+
+.result-container p {
+  color: #666;
+  font-size: 24px;
+  margin-bottom: 40px;
+}
+
+h1 {
+  text-align: center;
+  color: black;
+  margin: 40px 0;
+  font-size: 48px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Admin Dashboard Styles */
+.admin-dashboard {
+  background: white;
+  margin: 40px;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.admin-table {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.search-bar {
+  margin: 0;
+  flex: 0 1 300px;
+}
+
+.search-bar input {
+  padding: 15px;
+  border: 2px solid #eee;
+  border-radius: 12px;
+  width: 100%;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+  border-color: #ff4444;
+  box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.2);
+  outline: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th, td {
+  padding: 20px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background-color: #f8f8f8;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+th:hover {
+  background-color: #f0f0f0;
+}
+
+tr:hover {
+  background-color: #f9f9f9;
+}
+
+@media (max-width: 768px) {
+  .spin-wheel-container {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .spin-form {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .wheel-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+.table-filters {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 30px;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.filter-group {
+  flex: 0 1 300px;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.location-filter {
+  margin: 0;
+  flex: 0 1 300px;
+}
+
+.location-select {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #eee;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: white;
+  cursor: pointer;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 16px;
+  padding-right: 45px;
+}
+
+.location-select:focus {
+  border-color: #ff4444;
+  box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.2);
+  outline: none;
+}
+
+.search-bar {
+  flex-grow: 1;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 32px;
+    margin: 20px 0;
+  }
+
+  .spin-wheel-container {
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .spin-form {
+    width: 100%;
+    padding: 30px 20px;
+  }
+
+  .wheel-container {
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    padding: 20px;
+  }
+
+  .result-container {
+    width: 90%;
+    padding: 30px 20px;
+    margin: 20px auto;
+  }
+
+  .result-container h2 {
+    font-size: 24px;
+  }
+
+  .result-container p {
+    font-size: 18px;
+  }
+
+  /* Admin Dashboard Mobile Styles */
+  .admin-dashboard {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .table-filters {
+    flex-direction: column;
+    gap: 20px;
+    padding: 0;
+  }
+
+  .filter-group {
+    width: 100%;
+    flex: none;
+  }
+
+  .search-bar,
+  .location-filter {
+    width: 100%;
+    flex: none;
+  }
+
+  /* Table Responsive Design */
+  .admin-table {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 800px; /* Ensure table content is scrollable on mobile */
+  }
+
+  th, td {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  /* Improve touch targets */
+  button {
+    padding: 12px 24px;
+    min-height: 44px; /* Minimum touch target size */
+  }
+
+  .form-group input,
+  .form-group select,
+  .search-bar input,
+  .location-select {
+    min-height: 44px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 28px;
+  }
+
+  .spin-form {
+    padding: 20px 15px;
+  }
+
+  .form-group label {
+    font-size: 14px;
+  }
+
+  .wheel-container {
+    padding: 15px;
+  }
+
+  button {
+    font-size: 16px;
+  }
+
+  .filter-group label {
+    font-size: 13px;
+  }
+}
+
+/* Landscape orientation */
+@media (max-height: 600px) and (orientation: landscape) {
+  .spin-wheel-container {
+    padding: 10px;
+  }
+
+  h1 {
+    margin: 10px 0;
+  }
+
+  .wheel-container {
+    transform: scale(0.8);
+  }
+}

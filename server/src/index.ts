@@ -6,9 +6,27 @@ import { v4 as uuidv4 } from 'uuid';
 const app = express();
 const port = process.env.PORT || 3001;
 
+// Update CORS configuration to allow requests from your Vercel domain
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://pizza-wheel.vercel.app', // Add your Vercel domain
+  process.env.FRONTEND_URL // This will be used if you set it in environment variables
+].filter(Boolean); // Remove any undefined values
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:3000"
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
+
 app.use(express.json());
 
 const db = new Database('spins.db');

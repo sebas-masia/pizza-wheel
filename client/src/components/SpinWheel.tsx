@@ -42,14 +42,24 @@ export const SpinWheel: React.FC = () => {
     setShowResult(true);
 
     try {
-      await axios.post(`${API_URL}/api/spins`, {
+      console.log("Attempting to post to:", `${API_URL}/api/spins`);
+      const response = await axios.post(`${API_URL}/api/spins`, {
         name,
         email,
         sucursal,
         award: data[prizeNumber].option,
       });
+      console.log("Response:", response.data);
     } catch (error) {
       console.error("Error saving spin result:", error);
+      if (axios.isAxiosError(error)) {
+        console.error("Error details:", {
+          message: error.message,
+          response: error.response?.data,
+          status: error.response?.status,
+          headers: error.response?.headers,
+        });
+      }
     }
   };
 

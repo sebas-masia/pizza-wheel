@@ -12,5 +12,9 @@ export interface WheelData {
   style?: {
     backgroundColor?: string;
     textColor?: string;
+    fontFamily?: string;
+    fontSize?: number;
+    fontWeight?: number | string;
+    fontStyle?: string;
   };
 } 

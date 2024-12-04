@@ -5,409 +5,294 @@
 body {
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff4444 100%);
+  background: black url('../public/assets/Background.webp') center/cover fixed;
   font-family: 'Poppins', Arial, sans-serif;
   min-height: 100vh;
+  color: white;
 }
 
-.spin-wheel-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0px 20px;
+.main-container {
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
-  /* min-height: calc(100vh - 100px); */
+  flex-direction: column;
+  padding-top: 80px; /* To account for fixed navbar */
+}
+
+.content-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 4rem;
+  gap: 4rem;
+}
+
+.form-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 450px;
+}
+
+.form-section h1 {
+  text-align: left;
+  color: white;
+  margin: 0 0 2rem 0;
+  font-size: 3rem;
+  text-transform: uppercase;
+  line-height: 1.2;
 }
 
 .spin-form {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  width: 400px;
-  backdrop-filter: blur(10px);
+  background: transparent;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 .form-group {
-  margin-bottom: 25px;
+  margin-bottom: 0;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #333;
-  font-size: 16px;
+  color: white;
+  font-size: 1rem;
+  text-transform: uppercase;
 }
 
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 15px;
-  border: 2px solid #eee;
-  border-radius: 12px;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  background: white;
-  box-sizing: border-box; /* Ensure padding is included in width */
-  -webkit-appearance: none; /* Remove default styling in Safari */
-  -moz-appearance: none; /* Remove default styling in Firefox */
-  appearance: none; /* Remove default styling */
-}
-
-/* Add a custom arrow for select element */
-.form-group select {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 15px center;
-  background-size: 16px;
-  padding-right: 45px; /* Make room for custom arrow */
-}
-
-.form-group input:focus,
-.form-group select:focus {
-  border-color: #ff4444;
-  box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.2);
-  outline: none;
-}
-
-.wheel-container {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 600px;
-  width: 600px; /* Add fixed width */
-  height: 600px; /* Add fixed height */
-  backdrop-filter: blur(10px);
-}
-
-button {
-  background: linear-gradient(45deg, #ff4444 0%, #ff6b6b 100%);
+  padding: 0.75rem;
+  border: 1px solid white;
+  background: transparent;
   color: white;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: 600;
-  width: 100%;
-  transition: transform 0.2s, box-shadow 0.2s;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 68, 68, 0.4);
-}
-
-button:active {
-  transform: translateY(0);
-}
-
-.result-container {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 50px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  max-width: 500px;
-  margin: 40px auto;
-  backdrop-filter: blur(10px);
-}
-
-.result-container h2 {
-  color: #333;
-  margin-bottom: 30px;
-  font-size: 32px;
-}
-
-.result-container p {
-  color: #666;
-  font-size: 24px;
-  margin-bottom: 40px;
-}
-
-h1 {
-  text-align: center;
-  color: black;
-  margin: 40px 0;
-  font-size: 48px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Admin Dashboard Styles */
-.admin-dashboard {
-  background: white;
-  margin: 40px;
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-.admin-table {
-  background: white;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.search-bar {
-  margin: 0;
-  flex: 0 1 300px;
-}
-
-.search-bar input {
-  padding: 15px;
-  border: 2px solid #eee;
-  border-radius: 12px;
-  width: 100%;
-  font-size: 16px;
+  border-radius: 0;
+  font-size: 1rem;
   transition: all 0.3s ease;
-}
-
-.search-bar input:focus {
-  border-color: #ff4444;
-  box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.2);
-  outline: none;
-}
-
-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-th, td {
-  padding: 20px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
-}
-
-th {
-  background-color: #f8f8f8;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-th:hover {
-  background-color: #f0f0f0;
-}
-
-tr:hover {
-  background-color: #f9f9f9;
-}
-
-@media (max-width: 768px) {
-  .spin-wheel-container {
-    flex-direction: column;
-    gap: 40px;
-  }
-
-  .spin-form {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-
-  .wheel-container {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-}
-
-.table-filters {
-  display: flex;
-  gap: 40px;
-  margin-bottom: 30px;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 0 20px;
-}
-
-.filter-group {
-  flex: 0 1 300px;
-}
-
-.filter-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: #333;
-  font-size: 14px;
-}
-
-.location-filter {
-  margin: 0;
-  flex: 0 1 300px;
-}
-
-.location-select {
-  width: 100%;
-  padding: 15px;
-  border: 2px solid #eee;
-  border-radius: 12px;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  background: white;
-  cursor: pointer;
   box-sizing: border-box;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+.form-group input::placeholder,
+.form-group select::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid white;
+  background: transparent;
+  color: white;
+  border-radius: 0;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 15px center;
   background-size: 16px;
   padding-right: 45px;
 }
 
-.location-select:focus {
-  border-color: #ff4444;
-  box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.2);
-  outline: none;
+.form-group select option {
+  background: white;
+  color: black;
+  padding: 0.75rem;
 }
 
-.search-bar {
-  flex-grow: 1;
+.form-group select:focus {
+  outline: none;
+  border-color: #ff0000;
+}
+
+.wheel-section {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 700px;
+}
+
+button {
+  background: #ff0000;
+  color: white;
+  padding: 0.75rem 2rem;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 100%;
+  transition: background 0.2s;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+button:hover {
+  background: #cc0000;
+}
+
+.result-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px); /* Account for navbar */
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.result-container h2 {
+  font-size: 3.5rem;
+  margin: 0 0 1.5rem 0;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.result-container p {
+  font-size: 2rem;
+  margin: 0 0 3rem 0;
+  opacity: 0.9;
+}
+
+.result-container button {
+  max-width: 300px;
+  background: #ff0000;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
 }
 
 /* Mobile Optimizations */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 32px;
-    margin: 20px 0;
-  }
-
-  .spin-wheel-container {
+@media (max-width: 1024px) {
+  .content-container {
     flex-direction: column;
-    padding: 20px;
-    gap: 20px;
+    align-items: center;
+    padding: 1rem 2rem;
+    gap: 2rem;
   }
 
-  .spin-form {
-    width: 100%;
-    padding: 30px 20px;
+  .form-section {
+    padding-right: 0;
   }
 
-  .wheel-container {
-    width: 100%;
-    height: auto;
-    min-height: auto;
-    padding: 20px;
+  .form-section h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  .wheel-section {
+    justify-content: center;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-container {
+    flex-direction: column-reverse !important;
+    align-items: center;
+    padding: 1rem 2rem;
+    gap: 2rem;
+  }
+
+  .form-section,
+  .wheel-section {
+    width: 100% !important;
+  }
+
+  .wheel-section {
+    margin-top: 2rem;
+  }
+
+  .form-section h1 {
+    font-size: 2rem;
   }
 
   .result-container {
-    width: 90%;
-    padding: 30px 20px;
-    margin: 20px auto;
+    padding: 2rem 1rem;
   }
 
   .result-container h2 {
-    font-size: 24px;
+    font-size: 2.5rem;
   }
 
   .result-container p {
-    font-size: 18px;
+    font-size: 1.5rem;
+    margin: 0 0 2rem 0;
+  }
+}
+
+/* Add these navbar-specific styles */
+.navbar-hamburger {
+  display: none;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 2rem;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .navbar-hamburger {
+    display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    max-width: 25px;
   }
 
-  /* Admin Dashboard Mobile Styles */
-  .admin-dashboard {
-    margin: 20px;
-    padding: 20px;
+  .hamburger-line {
+    width: 25px;
+    height: 3px;
+    background: white;
+    margin: 5px 0;
+    transition: 0.4s;
   }
 
-  .table-filters {
+  .navbar-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: black;
     flex-direction: column;
-    gap: 20px;
-    padding: 0;
+    padding: 1rem;
+    align-items: center;
   }
 
-  .filter-group {
-    width: 100%;
-    flex: none;
+  .navbar-links.open {
+    display: flex;
   }
 
-  .search-bar,
-  .location-filter {
-    width: 100%;
-    flex: none;
+  /* Fix the content layout for mobile only */
+  .content-container {
+    flex-direction: column-reverse !important;
   }
 
-  /* Table Responsive Design */
-  .admin-table {
-    overflow-x: auto;
+  .form-section,
+  .wheel-section {
+    width: 100% !important;
   }
 
-  table {
-    min-width: 800px; /* Ensure table content is scrollable on mobile */
-  }
-
-  th, td {
-    padding: 12px;
-    font-size: 14px;
-  }
-
-  /* Improve touch targets */
-  button {
-    padding: 12px 24px;
-    min-height: 44px; /* Minimum touch target size */
-  }
-
-  .form-group input,
-  .form-group select,
-  .search-bar input,
-  .location-select {
-    min-height: 44px;
-    font-size: 16px; /* Prevent zoom on iOS */
-  }
-}
-
-/* Small phones */
-@media (max-width: 480px) {
-  h1 {
-    font-size: 28px;
-  }
-
-  .spin-form {
-    padding: 20px 15px;
-  }
-
-  .form-group label {
-    font-size: 14px;
-  }
-
-  .wheel-container {
-    padding: 15px;
-  }
-
-  button {
-    font-size: 16px;
-  }
-
-  .filter-group label {
-    font-size: 13px;
-  }
-}
-
-/* Landscape orientation */
-@media (max-height: 600px) and (orientation: landscape) {
-  .spin-wheel-container {
-    padding: 10px;
-  }
-
-  h1 {
-    margin: 10px 0;
-  }
-
-  .wheel-container {
-    transform: scale(0.8);
+  .wheel-section {
+    margin-top: 2rem;
   }
 }

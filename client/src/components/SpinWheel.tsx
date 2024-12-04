@@ -4,12 +4,13 @@ import axios from "axios";
 import { API_URL } from "../config";
 
 const data = [
-  { option: "Free Pizza" },
-  { option: "20% Off" },
-  { option: "Free Drink" },
-  { option: "2x1 Pizza" },
-  { option: "Free Dessert" },
-  { option: "10% Off" },
+  { option: "Pan de Ajo" },
+  { option: "Cheesesticks" },
+  { option: "Pizza Personal" },
+  { option: "Coca Cola 355Ml" },
+  { option: "10% descuento" },
+  { option: "Intenta de nuevo" },
+  { option: "Pizza Mediana" },
 ];
 
 const LOCATIONS = ["Downtown", "West Side", "North Mall", "Beach Front"];
@@ -18,23 +19,17 @@ export const SpinWheel: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [sucursal, setSucursal] = useState("");
+  const [cedula, setCedula] = useState("");
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
-  const [showWheel, setShowWheel] = useState(false);
   const [showResult, setShowResult] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !sucursal) return;
-    setShowWheel(true);
-  };
-
-  const handleSpinClick = () => {
-    if (!mustSpin) {
-      const newPrizeNumber = Math.floor(Math.random() * data.length);
-      setPrizeNumber(newPrizeNumber);
-      setMustSpin(true);
-    }
+    if (!name || !email || !sucursal || !cedula) return;
+    const newPrizeNumber = Math.floor(Math.random() * data.length);
+    setPrizeNumber(newPrizeNumber);
+    setMustSpin(true);
   };
 
   const handleStopSpinning = async () => {
@@ -47,6 +42,7 @@ export const SpinWheel: React.FC = () => {
         name,
         email,
         sucursal,
+        cedula,
         award: data[prizeNumber].option,
       });
       console.log("Response:", response.data);
@@ -67,31 +63,33 @@ export const SpinWheel: React.FC = () => {
     setName("");
     setEmail("");
     setSucursal("");
-    setShowWheel(false);
+    setCedula("");
     setShowResult(false);
     setMustSpin(false);
   };
 
   if (showResult) {
     return (
-      <div className="result-container">
-        <h2>Congratulations {name}!</h2>
-        <p>You won: {data[prizeNumber].option}</p>
-        <button onClick={handlePlayAgain}>Play Again</button>
+      <div className="main-container">
+        <div className="result-container">
+          <h2>¡Felicitaciones {name}!</h2>
+          <p>Has ganado: {data[prizeNumber].option}</p>
+          <button onClick={handlePlayAgain}>JUGAR DE NUEVO</button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <h1>Pizza Fortune Wheel</h1>
-      <div className="spin-wheel-container">
-        {!showWheel ? (
+    <div className="main-container">
+      <div className="content-container">
+        <div className="form-section">
+          <h1>LLENA, GIRA, ¡GANA!</h1>
           <form onSubmit={handleSubmit} className="spin-form">
             <div className="form-group">
-              <label htmlFor="name">Name:</label>
+              <label htmlFor="orderNumber">NÚMERO DE ORDEN</label>
               <input
-                id="name"
+                id="orderNumber"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -100,10 +98,10 @@ export const SpinWheel: React.FC = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="email">Email:</label>
+              <label htmlFor="name">NOMBRE</label>
               <input
-                id="email"
-                type="email"
+                id="name"
+                type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -111,14 +109,25 @@ export const SpinWheel: React.FC = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="sucursal">Location:</label>
+              <label htmlFor="cedula">CÉDULA</label>
+              <input
+                id="cedula"
+                type="text"
+                value={cedula}
+                onChange={(e) => setCedula(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="restaurant">RESTAURANTE DE LA ORDEN</label>
               <select
-                id="sucursal"
+                id="restaurant"
                 value={sucursal}
                 onChange={(e) => setSucursal(e.target.value)}
                 required
               >
-                <option value="">Select location</option>
+                <option value="">Seleccionar restaurante</option>
                 {LOCATIONS.map((location) => (
                   <option key={location} value={location}>
                     {location}
@@ -127,25 +136,31 @@ export const SpinWheel: React.FC = () => {
               </select>
             </div>
 
-            <button type="submit">Start Spinning!</button>
+            <button type="submit">GIRAR</button>
           </form>
-        ) : (
-          <div className="wheel-container">
-            <Wheel
-              mustStartSpinning={mustSpin}
-              prizeNumber={prizeNumber}
-              data={data}
-              onStopSpinning={handleStopSpinning}
-            />
-            <button
-              onClick={handleSpinClick}
-              disabled={mustSpin}
-              style={{ marginTop: "20px", maxWidth: "200px" }}
-            >
-              SPIN
-            </button>
-          </div>
-        )}
+        </div>
+        <div className="wheel-section">
+          <Wheel
+            mustStartSpinning={mustSpin}
+            prizeNumber={prizeNumber}
+            data={data}
+            onStopSpinning={handleStopSpinning}
+            outerBorderColor="#FF0000"
+            outerBorderWidth={8}
+            innerBorderColor="#FF0000"
+            innerBorderWidth={1}
+            innerRadius={10}
+            radiusLineColor="#FF0000"
+            radiusLineWidth={1}
+            fontSize={15}
+            textDistance={60}
+            fontFamily="Montserrat"
+            backgroundColors={["#FFFFFF", "#000000"]}
+            textColors={["#FF0000"]}
+            perpendicularText={false}
+            spinDuration={0.8}
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import Logo from "../../public/assets/Logo.webp";
 
 export const Navbar: React.FC = () => {
   const sucursales = [
@@ -77,7 +78,7 @@ export const Navbar: React.FC = () => {
         }}
       >
         <Link to="/" style={{ display: "flex", alignItems: "center" }}>
-          <img src="../public/assets/Logo.webp" alt="Peperonni's" height="50" />
+          <img src={Logo} alt="Peperonni's" height="50" />
         </Link>
 
         <button className="navbar-hamburger" onClick={() => setIsOpen(!isOpen)}>

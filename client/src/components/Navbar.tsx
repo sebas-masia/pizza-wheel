@@ -1,8 +1,59 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import "./Navbar.css";
 
 export const Navbar: React.FC = () => {
+  const sucursales = [
+    {
+      name: "Atenas",
+      menu: "https://qrco.de/PeperonnisAtenas",
+      location: "https://maps.app.goo.gl/HtXGfZ8ZYwNych3F8",
+      express: "https://wa.me/50624469898",
+    },
+    {
+      name: "Rio Segundo",
+      menu: "https://qrco.de/PeperonnisMCR2",
+      location: "https://maps.app.goo.gl/77EnAoyfEK2pxfhk7",
+      express: "https://wa.me/50624359999",
+    },
+    {
+      name: "Ciruelas",
+      menu: "https://qrco.de/PeperonnisMCR2",
+      location: "https://maps.app.goo.gl/T9wh7GsJZ2TZCsMDA",
+      express: "https://wa.me/50621014748",
+    },
+    {
+      name: "Turrucares",
+      menu: "https://qrco.de/Turrucares",
+      location: "https://maps.app.goo.gl/srsFAqMsDPXS87xB7",
+      express: "https://wa.me/50621026867",
+    },
+    {
+      name: "Santa Barbara",
+      menu: "https://qrco.de/PeperonnisSantaBarbara",
+      location: "https://maps.app.goo.gl/ca5AadYAz4idLodm8",
+      express: "https://wa.me/50622530000",
+    },
+    {
+      name: "Parrita",
+      menu: "https://qrco.de/PEPERONNISPARRITA",
+      location: "https://maps.app.goo.gl/JUYciYm3nsgpCUZu9",
+      express: "https://wa.me/50627799999",
+    },
+    {
+      name: "San Isidro",
+      menu: "https://qrco.de/PeperonnisSanIsidro",
+      location: "https://maps.app.goo.gl/1aPuC16pcXkuimNa6",
+      express: "https://wa.me/50622525252",
+    },
+  ];
+
   const [isOpen, setIsOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+  const handleDropdownClick = (dropdown: string) => {
+    setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+  };
 
   return (
     <nav
@@ -53,39 +104,98 @@ export const Navbar: React.FC = () => {
         </button>
 
         <div className={`navbar-links ${isOpen ? "open" : ""}`}>
-          <Link
-            to="/"
-            style={{
-              textDecoration: "none",
-              color: "white",
-              fontWeight: "bold",
-              fontSize: "1.1rem",
-            }}
-          >
-            MENÚ
-          </Link>
-          <Link
-            to="/about"
-            style={{
-              textDecoration: "none",
-              color: "white",
-              fontWeight: "bold",
-              fontSize: "1.1rem",
-            }}
-          >
-            EXPRESS
-          </Link>
-          <Link
-            to="/admin"
-            style={{
-              textDecoration: "none",
-              color: "white",
-              fontWeight: "bold",
-              fontSize: "1.1rem",
-            }}
-          >
-            UBICACIONES
-          </Link>
+          <div className="nav-item">
+            <button
+              onClick={() => handleDropdownClick("menu")}
+              style={{
+                background: "none",
+                border: "none",
+                color: "white",
+                fontWeight: "bold",
+                fontSize: "1.1rem",
+                cursor: "pointer",
+                padding: "10px",
+              }}
+            >
+              MENÚ
+            </button>
+            {activeDropdown === "menu" && (
+              <div className="dropdown-content">
+                {sucursales.map((sucursal) => (
+                  <a
+                    key={sucursal.name}
+                    href={sucursal.menu}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {sucursal.name}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="nav-item">
+            <button
+              onClick={() => handleDropdownClick("express")}
+              style={{
+                background: "none",
+                border: "none",
+                color: "white",
+                fontWeight: "bold",
+                fontSize: "1.1rem",
+                cursor: "pointer",
+                padding: "10px",
+              }}
+            >
+              EXPRESS
+            </button>
+            {activeDropdown === "express" && (
+              <div className="dropdown-content">
+                {sucursales.map((sucursal) => (
+                  <a
+                    key={sucursal.name}
+                    href={sucursal.express}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {sucursal.name}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="nav-item">
+            <button
+              onClick={() => handleDropdownClick("locations")}
+              style={{
+                background: "none",
+                border: "none",
+                color: "white",
+                fontWeight: "bold",
+                fontSize: "1.1rem",
+                cursor: "pointer",
+                padding: "10px",
+              }}
+            >
+              UBICACIONES
+            </button>
+            {activeDropdown === "locations" && (
+              <div className="dropdown-content">
+                {sucursales.map((sucursal) => (
+                  <a
+                    key={sucursal.name}
+                    href={sucursal.location}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {sucursal.name}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>

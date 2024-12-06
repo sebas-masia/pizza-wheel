@@ -1,7 +1,8 @@
 export interface Spin {
   id: string;
-  name: string;
-  email: string;
+  orderNumber: string;
+  customerName: string;
+  cedula: string;
   sucursal: string;
   award: string;
   createdAt: string;

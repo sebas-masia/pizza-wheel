@@ -33,8 +33,9 @@ const db = new Database('spins.db');
 
 interface Spin {
   id: string;
-  name: string;
-  email: string;
+  orderNumber: string;
+  customerName: string;
+  cedula: string;
   sucursal: string;
   award: string;
   createdAt?: string;
@@ -44,8 +45,9 @@ interface Spin {
 db.run(`
   CREATE TABLE IF NOT EXISTS spins (
     id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
+    orderNumber TEXT NOT NULL,
+    customerName TEXT NOT NULL,
+    cedula TEXT NOT NULL,
     sucursal TEXT NOT NULL,
     award TEXT NOT NULL,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -54,18 +56,18 @@ db.run(`
 
 // Add new spin
 app.post('/api/spins', (req: Request, res: Response) => {
-  const { name, email, sucursal, award } = req.body as Spin;
+  const { orderNumber, customerName, cedula, sucursal, award } = req.body as Spin;
   const id = uuidv4();
 
   db.run(
-    'INSERT INTO spins (id, name, email, sucursal, award) VALUES (?, ?, ?, ?, ?)',
-    [id, name, email, sucursal, award],
+    'INSERT INTO spins (id, orderNumber, customerName, cedula, sucursal, award) VALUES (?, ?, ?, ?, ?, ?)',
+    [id, orderNumber, customerName, cedula, sucursal, award],
     (err) => {
       if (err) {
         res.status(500).json({ error: err.message });
         return;
       }
-      res.status(201).json({ id, name, email, sucursal, award });
+      res.status(201).json({ id, orderNumber, customerName, cedula, sucursal, award });
     }
   );
 });

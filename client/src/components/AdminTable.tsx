@@ -7,6 +7,16 @@ interface AdminTableProps {
 
 const LOCATIONS = ["Downtown", "West Side", "North Mall", "Beach Front"];
 
+const FIELD_LABELS: Record<string, string> = {
+  id: "ID",
+  orderNumber: "Número de Orden",
+  customerName: "Nombre del Cliente",
+  cedula: "Cédula",
+  sucursal: "Sucursal",
+  award: "Premio",
+  createdAt: "Fecha",
+};
+
 export const AdminTable: React.FC<AdminTableProps> = ({ spins }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortField, setSortField] = useState<keyof Spin>("createdAt");
@@ -18,8 +28,9 @@ export const AdminTable: React.FC<AdminTableProps> = ({ spins }) => {
       .filter((spin) => {
         const searchLower = searchTerm.toLowerCase();
         const matchesSearch =
-          spin.name.toLowerCase().includes(searchLower) ||
-          spin.email.toLowerCase().includes(searchLower) ||
+          spin.orderNumber.toLowerCase().includes(searchLower) ||
+          spin.customerName.toLowerCase().includes(searchLower) ||
+          spin.cedula.toLowerCase().includes(searchLower) ||
           spin.sucursal.toLowerCase().includes(searchLower) ||
           spin.award.toLowerCase().includes(searchLower);
 
@@ -52,35 +63,38 @@ export const AdminTable: React.FC<AdminTableProps> = ({ spins }) => {
 
   return (
     <div className="admin-table">
-      <div className="table-filters">
-        <div className="filter-group">
-          <label htmlFor="search">Search in all fields:</label>
-          <div className="search-bar">
-            <input
-              id="search"
-              type="text"
-              placeholder="Type to search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+      <div className="filters-container">
+        <div className="filters-wrapper">
+          <div className="filter-group">
+            <label htmlFor="search">Buscar:</label>
+            <div className="search-bar">
+              <input
+                id="search"
+                type="text"
+                placeholder="Buscar por orden, nombre, cédula, sucursal o premio..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
           </div>
-        </div>
-        <div className="filter-group">
-          <label htmlFor="location">Filter by location:</label>
-          <div className="location-filter">
-            <select
-              id="location"
-              value={selectedLocation}
-              onChange={(e) => setSelectedLocation(e.target.value)}
-              className="location-select"
-            >
-              <option value="">All Locations</option>
-              {LOCATIONS.map((location) => (
-                <option key={location} value={location}>
-                  {location}
-                </option>
-              ))}
-            </select>
+
+          <div className="filter-group">
+            <label htmlFor="location">Filtrar por sucursal:</label>
+            <div className="location-filter">
+              <select
+                id="location"
+                value={selectedLocation}
+                onChange={(e) => setSelectedLocation(e.target.value)}
+                className="location-select"
+              >
+                <option value="">Todas las Sucursales</option>
+                {LOCATIONS.map((location) => (
+                  <option key={location} value={location}>
+                    {location}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -88,27 +102,32 @@ export const AdminTable: React.FC<AdminTableProps> = ({ spins }) => {
       <table>
         <thead>
           <tr>
-            {["id", "name", "email", "sucursal", "award", "createdAt"].map(
-              (field) => (
-                <th
-                  key={field}
-                  onClick={() => handleSort(field as keyof Spin)}
-                  className={
-                    sortField === field ? `sorted-${sortDirection}` : ""
-                  }
-                >
-                  {field.charAt(0).toUpperCase() + field.slice(1)}
-                </th>
-              )
-            )}
+            {[
+              "id",
+              "orderNumber",
+              "customerName",
+              "cedula",
+              "sucursal",
+              "award",
+              "createdAt",
+            ].map((field) => (
+              <th
+                key={field}
+                onClick={() => handleSort(field as keyof Spin)}
+                className={sortField === field ? `sorted-${sortDirection}` : ""}
+              >
+                {FIELD_LABELS[field]}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {sortedAndFilteredSpins.map((spin) => (
             <tr key={spin.id}>
               <td>{spin.id}</td>
-              <td>{spin.name}</td>
-              <td>{spin.email}</td>
+              <td>{spin.orderNumber}</td>
+              <td>{spin.customerName}</td>
+              <td>{spin.cedula}</td>
               <td>{spin.sucursal}</td>
               <td>{spin.award}</td>
               <td>{new Date(spin.createdAt).toLocaleString()}</td>

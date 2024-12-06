@@ -39,10 +39,10 @@ export const SpinWheel: React.FC = () => {
     try {
       console.log("Attempting to post to:", `${API_URL}/api/spins`);
       const response = await axios.post(`${API_URL}/api/spins`, {
-        name,
-        email,
-        sucursal,
+        orderNumber: name,
+        customerName: email,
         cedula,
+        sucursal,
         award: data[prizeNumber].option,
       });
       console.log("Response:", response.data);

@@ -83,6 +83,24 @@ app.get('/api/spins', (_: Request, res: Response) => {
   });
 });
 
+// Add this new endpoint
+app.get("/api/spins/:orderNumber", (req, res) => {
+  const { orderNumber } = req.params;
+  
+  db.get('SELECT * FROM spins WHERE orderNumber = ?', [orderNumber], (err, row) => {
+    if (err) {
+      console.error("Error fetching spin:", err);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+    
+    if (!row) {
+      return res.status(404).json({ message: "Spin not found" });
+    }
+    
+    res.json(row);
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server running at port ${port}`);
 }); 

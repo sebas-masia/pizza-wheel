@@ -414,3 +414,12 @@ button:hover {
 .sorted-desc::after {
   content: " ↓";
 }
+
+.error-message {
+  color: #ff0000;
+  background-color: #ffe6e6;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+}

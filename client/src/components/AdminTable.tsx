@@ -5,7 +5,15 @@ interface AdminTableProps {
   spins: Spin[];
 }
 
-const LOCATIONS = ["Downtown", "West Side", "North Mall", "Beach Front"];
+const LOCATIONS = [
+  "Atenas",
+  "Rio Segundo",
+  "Ciruelas",
+  "Turrucares",
+  "Santa Barbara",
+  "Parrita",
+  "San Isidro",
+];
 
 const FIELD_LABELS: Record<string, string> = {
   id: "ID",

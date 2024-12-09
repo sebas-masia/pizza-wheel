@@ -13,23 +13,79 @@ const data = [
   { option: "Pizza Mediana" },
 ];
 
-const LOCATIONS = ["Downtown", "West Side", "North Mall", "Beach Front"];
+const LOCATIONS = [
+  "Atenas",
+  "Rio Segundo",
+  "Ciruelas",
+  "Turrucares",
+  "Santa Barbara",
+  "Parrita",
+  "San Isidro",
+];
 
 export const SpinWheel: React.FC = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [orderNumber, setOrderNumber] = useState("");
+  const [customerName, setCustomerName] = useState("");
   const [sucursal, setSucursal] = useState("");
   const [cedula, setCedula] = useState("");
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [showResult, setShowResult] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateOrderNumber = (value: string) => {
+    return /^\d+$/.test(value);
+  };
+
+  const validateCedula = (value: string) => {
+    return /^\d+$/.test(value);
+  };
+
+  const checkExistingSpin = async (orderNumber: string) => {
+    try {
+      const response = await axios.get(`${API_URL}/api/spins/${orderNumber}`);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        return null;
+      }
+      throw error;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !sucursal || !cedula) return;
-    const newPrizeNumber = Math.floor(Math.random() * data.length);
-    setPrizeNumber(newPrizeNumber);
-    setMustSpin(true);
+    setError(null);
+
+    if (!orderNumber || !customerName || !sucursal || !cedula) {
+      setError("Por favor complete todos los campos");
+      return;
+    }
+
+    if (!validateOrderNumber(orderNumber)) {
+      setError("El número de orden debe contener solo números");
+      return;
+    }
+
+    if (!validateCedula(cedula)) {
+      setError("La cédula debe contener solo números");
+      return;
+    }
+
+    try {
+      const existingSpin = await checkExistingSpin(orderNumber);
+      if (existingSpin) {
+        setError("Este número de orden ya ha sido utilizado para un giro");
+        return;
+      }
+
+      const newPrizeNumber = Math.floor(Math.random() * data.length);
+      setPrizeNumber(newPrizeNumber);
+      setMustSpin(true);
+    } catch (error) {
+      console.error("Error checking spin:", error);
+      setError("Ocurrió un error al verificar el número de orden");
+    }
   };
 
   const handleStopSpinning = async () => {
@@ -39,8 +95,8 @@ export const SpinWheel: React.FC = () => {
     try {
       console.log("Attempting to post to:", `${API_URL}/api/spins`);
       const response = await axios.post(`${API_URL}/api/spins`, {
-        orderNumber: name,
-        customerName: email,
+        orderNumber: orderNumber,
+        customerName: customerName,
         cedula,
         sucursal,
         award: data[prizeNumber].option,
@@ -60,19 +116,20 @@ export const SpinWheel: React.FC = () => {
   };
 
   const handlePlayAgain = () => {
-    setName("");
-    setEmail("");
+    setOrderNumber("");
+    setCustomerName("");
     setSucursal("");
     setCedula("");
     setShowResult(false);
     setMustSpin(false);
+    setError(null);
   };
 
   if (showResult) {
     return (
       <div className="main-container">
         <div className="result-container">
-          <h2>¡Felicitaciones {name}!</h2>
+          <h2>¡Felicitaciones {customerName}!</h2>
           <p>Has ganado: {data[prizeNumber].option}</p>
           <button onClick={handlePlayAgain}>JUGAR DE NUEVO</button>
         </div>
@@ -85,14 +142,15 @@ export const SpinWheel: React.FC = () => {
       <div className="content-container">
         <div className="form-section">
           <h1>LLENA, GIRA, ¡GANA!</h1>
+          {error && <div className="error-message">{error}</div>}
           <form onSubmit={handleSubmit} className="spin-form">
             <div className="form-group">
               <label htmlFor="orderNumber">NÚMERO DE ORDEN</label>
               <input
                 id="orderNumber"
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={orderNumber}
+                onChange={(e) => setOrderNumber(e.target.value)}
                 required
               />
             </div>
@@ -102,8 +160,8 @@ export const SpinWheel: React.FC = () => {
               <input
                 id="name"
                 type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
                 required
               />
             </div>

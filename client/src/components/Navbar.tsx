@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import Logo from "../../public/assets/Logo.webp";
@@ -51,10 +51,28 @@ export const Navbar: React.FC = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const navRef = useRef<HTMLDivElement>(null);
 
   const handleDropdownClick = (dropdown: string) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setActiveDropdown(null);
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav
@@ -68,6 +86,7 @@ export const Navbar: React.FC = () => {
       }}
     >
       <div
+        ref={navRef}
         style={{
           maxWidth: "1200px",
           margin: "0 auto",
@@ -107,95 +126,83 @@ export const Navbar: React.FC = () => {
         <div className={`navbar-links ${isOpen ? "open" : ""}`}>
           <div className="nav-item">
             <button
+              className={`nav-button ${
+                activeDropdown === "menu" ? "active" : ""
+              }`}
               onClick={() => handleDropdownClick("menu")}
-              style={{
-                background: "none",
-                border: "none",
-                color: "white",
-                fontWeight: "bold",
-                fontSize: "1.1rem",
-                cursor: "pointer",
-                padding: "10px",
-              }}
             >
               MENÚ
             </button>
-            {activeDropdown === "menu" && (
-              <div className="dropdown-content">
-                {sucursales.map((sucursal) => (
-                  <a
-                    key={sucursal.name}
-                    href={sucursal.menu}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {sucursal.name}
-                  </a>
-                ))}
-              </div>
-            )}
+            <div
+              className={`dropdown-content ${
+                activeDropdown === "menu" ? "active" : ""
+              }`}
+            >
+              {sucursales.map((sucursal) => (
+                <a
+                  key={sucursal.name}
+                  href={sucursal.menu}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {sucursal.name}
+                </a>
+              ))}
+            </div>
           </div>
 
           <div className="nav-item">
             <button
+              className={`nav-button ${
+                activeDropdown === "express" ? "active" : ""
+              }`}
               onClick={() => handleDropdownClick("express")}
-              style={{
-                background: "none",
-                border: "none",
-                color: "white",
-                fontWeight: "bold",
-                fontSize: "1.1rem",
-                cursor: "pointer",
-                padding: "10px",
-              }}
             >
               EXPRESS
             </button>
-            {activeDropdown === "express" && (
-              <div className="dropdown-content">
-                {sucursales.map((sucursal) => (
-                  <a
-                    key={sucursal.name}
-                    href={sucursal.express}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {sucursal.name}
-                  </a>
-                ))}
-              </div>
-            )}
+            <div
+              className={`dropdown-content ${
+                activeDropdown === "express" ? "active" : ""
+              }`}
+            >
+              {sucursales.map((sucursal) => (
+                <a
+                  key={sucursal.name}
+                  href={sucursal.express}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {sucursal.name}
+                </a>
+              ))}
+            </div>
           </div>
 
           <div className="nav-item">
             <button
+              className={`nav-button ${
+                activeDropdown === "locations" ? "active" : ""
+              }`}
               onClick={() => handleDropdownClick("locations")}
-              style={{
-                background: "none",
-                border: "none",
-                color: "white",
-                fontWeight: "bold",
-                fontSize: "1.1rem",
-                cursor: "pointer",
-                padding: "10px",
-              }}
             >
               UBICACIONES
             </button>
-            {activeDropdown === "locations" && (
-              <div className="dropdown-content">
-                {sucursales.map((sucursal) => (
-                  <a
-                    key={sucursal.name}
-                    href={sucursal.location}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {sucursal.name}
-                  </a>
-                ))}
-              </div>
-            )}
+            <div
+              className={`dropdown-content ${
+                activeDropdown === "locations" ? "active" : ""
+              }`}
+            >
+              {sucursales.map((sucursal) => (
+                <a
+                  key={sucursal.name}
+                  href={sucursal.location}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {sucursal.name}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>

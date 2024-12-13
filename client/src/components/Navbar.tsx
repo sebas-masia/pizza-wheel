@@ -58,19 +58,31 @@ export const Navbar: React.FC = () => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (navRef.current && !navRef.current.contains(event.target as Node)) {
         setActiveDropdown(null);
         setIsOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("touchstart", handleClickOutside);
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside as (e: MouseEvent) => void
+    );
+    document.addEventListener(
+      "touchstart",
+      handleClickOutside as (e: TouchEvent) => void
+    );
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("touchstart", handleClickOutside);
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside as (e: MouseEvent) => void
+      );
+      document.removeEventListener(
+        "touchstart",
+        handleClickOutside as (e: TouchEvent) => void
+      );
     };
   }, []);
 

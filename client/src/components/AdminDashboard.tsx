@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AdminTable } from "./AdminTable";
 import { Spin } from "../types/types";
+import { API_URL } from "../config";
 import axios from "axios";
 
 export const AdminDashboard: React.FC = () => {
@@ -9,7 +10,7 @@ export const AdminDashboard: React.FC = () => {
   useEffect(() => {
     const fetchSpins = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/spins");
+        const response = await axios.get(`${API_URL}/api/spins`);
         setSpins(response.data);
       } catch (error) {
         console.error("Error fetching spins:", error);

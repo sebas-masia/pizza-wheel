@@ -131,6 +131,9 @@ export const SpinWheel: React.FC = () => {
         <div className="result-container">
           <h2>¡Felicitaciones {customerName}!</h2>
           <p>Has ganado: {data[prizeNumber].option}</p>
+          <p style={{ fontSize: "12px" }}>
+            Recuerda mostrar tu factura para reclamar tu premio
+          </p>
           <button onClick={handlePlayAgain}>JUGAR DE NUEVO</button>
         </div>
       </div>
